@@ -2,7 +2,15 @@
   "name": "csvsync",
   "version": "1.3.3",
   "description": "csv reader and writer working synchronously",
-  "main": "index.js",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "exports": {
+    ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/my-module.js",
+        "require": "./dist/my-module.umd.cjs"
+    }
+  },
   "scripts": {
     "test": "./node_modules/.bin/tape test.js | ./node_modules/.bin/tap-spec"
   },

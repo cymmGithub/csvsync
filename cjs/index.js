@@ -175,5 +175,4 @@ function parse(csv, opts) {
 	return lines.map(parse_line);
 }
 
-exports.parse = parse;
-exports.stringify = stringify;
+module.exports = { parse, stringify };
