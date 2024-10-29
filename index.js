@@ -1,12 +1,12 @@
-var _isString = require('lodash.isstring');
+const _isString = require('lodash.isstring');
 
 /**
  * convert javscript object/array into a .csv string
  */
 function stringify(data, opts) {
 	opts = opts || {};
-	var delimiter = opts.delimiter || ',';
-	var quoteAll = opts.quoteAll;
+	const delimiter = opts.delimiter || ',';
+	const quoteAll = opts.quoteAll;
 
 	// iterate rows
 	return data.reduce(function(csv, row) {
@@ -41,7 +41,7 @@ function stringify(data, opts) {
  */
 function parse(csv, opts) {
 	opts = opts || {};
-	var delimiter = opts.delimiter || ',';
+	const delimiter = opts.delimiter || ',';
 
 	// in case we receive a buffer straight from readFileSync
 	csv = csv.toString();
@@ -49,8 +49,8 @@ function parse(csv, opts) {
 	// avoid empty arrays on last row
 	csv = csv.trim();
 
-	var prelines = csv.split(/\n|\r\n|\r/);
-	var lines;
+	const prelines = csv.split(/\n|\r\n|\r/);
+	let lines;
 
 	if (opts.unquotedFields) {
 		// if unquotedFields is active, there can't be fields with newlines
@@ -58,8 +58,8 @@ function parse(csv, opts) {
 	} else {
 		// join lines with odd number of quotes again (those are the ones
 		// with newlines embedded in fields)
-		var i = 0;
-		var currentLine;
+		let i = 0;
+		let currentLine;
 		lines = [];
 
 		while (i < prelines.length) {
@@ -73,7 +73,7 @@ function parse(csv, opts) {
 		}
 	}
 
-	var header;
+	let header;
 
 	if (opts.skipHeader) lines.shift();
 
@@ -89,26 +89,23 @@ function parse(csv, opts) {
 		}
 	}
 
-	// prepare RegExp for removing field quotes
-	if (opts.removeFieldQuote) {
-		var fieldQuoteRegex = new RegExp(
-			escapeRegExp(opts.removeFieldQuote + delimiter + opts.removeFieldQuote),
-			'g',
-		);
-	}
-
 	function escapeRegExp(str) {
 		return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 	}
 
 	function parse_line(line) {
-		var row_out = opts.returnObject ? {} : [];
+		const row_out = opts.returnObject ? {} : [];
 
-		var pos = 0; // start of field
-		var endpos = 0; // end of field
-		var idx = 0; // for keeping track of header keys
+		let pos = 0; // start of field
+		let endpos = 0; // end of field
+		let idx = 0; // for keeping track of header keys
 
 		if (opts.removeFieldQuote) {
+			const fieldQuoteRegex = new RegExp(
+				escapeRegExp(opts.removeFieldQuote + delimiter + opts.removeFieldQuote),
+				'g',
+			);
+
 			if (
 				line.charAt(0) === opts.removeFieldQuote &&
 				line.charAt(line.length - 1) === opts.removeFieldQuote
